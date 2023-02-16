@@ -58,7 +58,14 @@ app.use((req, res) => {
   });
 });
 
+// error handling
 app.use((err, req, res, next) => {
+  if (err.status) {
+    return res.status(err.status).json({
+      message: err.message,
+    });
+  }
+
   console.error("API Error: ", err.message);
 
   res.status(500).json({
